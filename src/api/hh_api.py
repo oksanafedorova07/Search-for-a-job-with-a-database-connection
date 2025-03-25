@@ -1,5 +1,7 @@
-import requests
 from typing import Dict, List, Optional
+
+import requests
+
 from src.models.models import Employer, Vacancy
 
 
@@ -20,10 +22,10 @@ class HeadHunterAPI:
             if response.status_code == 200:
                 data = response.json()
                 employer = Employer(
-                    id=data['id'],
-                    name=data['name'],
-                    url=data['alternate_url'],
-                    open_vacancies=data['open_vacancies']
+                    id=data["id"],
+                    name=data["name"],
+                    url=data["alternate_url"],
+                    open_vacancies=data["open_vacancies"],
                 )
                 employers.append(employer)
         return employers
@@ -32,24 +34,24 @@ class HeadHunterAPI:
         """Получение вакансий работодателя по его ID"""
         url = f"{self.BASE_URL}vacancies"
         params = {
-            'employer_id': employer_id,
-            'per_page': 100,  # Максимальное количество вакансий на странице
-            'area': 113,  # Россия
+            "employer_id": employer_id,
+            "per_page": 100,  # Максимальное количество вакансий на странице
+            "area": 113,  # Россия
         }
         response = self.session.get(url, params=params)
         vacancies = []
         if response.status_code == 200:
             data = response.json()
-            for item in data['items']:
-                salary = self._parse_salary(item.get('salary'))
+            for item in data["items"]:
+                salary = self._parse_salary(item.get("salary"))
                 vacancy = Vacancy(
-                    id=item['id'],
+                    id=item["id"],
                     employer_id=employer_id,
-                    title=item['name'],
-                    salary_from=salary['from'],
-                    salary_to=salary['to'],
-                    currency=salary['currency'],
-                    url=item['alternate_url']
+                    title=item["name"],
+                    salary_from=salary["from"],
+                    salary_to=salary["to"],
+                    currency=salary["currency"],
+                    url=item["alternate_url"],
                 )
                 vacancies.append(vacancy)
         return vacancies
@@ -58,9 +60,9 @@ class HeadHunterAPI:
     def _parse_salary(salary: Optional[Dict]) -> Dict:
         """Парсинг информации о зарплате"""
         if not salary:
-            return {'from': None, 'to': None, 'currency': None}
+            return {"from": None, "to": None, "currency": None}
         return {
-            'from': salary.get('from'),
-            'to': salary.get('to'),
-            'currency': salary.get('currency')
+            "from": salary.get("from"),
+            "to": salary.get("to"),
+            "currency": salary.get("currency"),
         }

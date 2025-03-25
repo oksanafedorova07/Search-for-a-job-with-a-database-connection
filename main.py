@@ -1,7 +1,7 @@
+from config.config import DB_NAME, EMPLOYER_IDS
 from src.api.hh_api import HeadHunterAPI
 from src.database.db_creator import DBCreator
 from src.database.db_manager import DBManager
-from config.config import DB_NAME, EMPLOYER_IDS
 
 
 def main():
@@ -57,7 +57,7 @@ def main():
             print("\nВсе вакансии:")
             for vac in vacancies:
                 salary = ""
-                if vac['salary_from'] or vac['salary_to']:
+                if vac["salary_from"] or vac["salary_to"]:
                     salary = f" ({vac['salary_from'] or '?'}-{vac['salary_to'] or '?'} {vac['currency'] or ''})"
                 print(f"{vac['company']}: {vac['title']}{salary} - {vac['url']}")
 

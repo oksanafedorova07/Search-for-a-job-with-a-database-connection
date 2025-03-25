@@ -4,6 +4,7 @@ from dataclasses import dataclass
 @dataclass
 class Employer:
     """Класс для представления работодателя"""
+
     id: str
     name: str
     url: str
@@ -13,6 +14,7 @@ class Employer:
 @dataclass
 class Vacancy:
     """Класс для представления вакансии"""
+
     id: str
     employer_id: str
     title: str
